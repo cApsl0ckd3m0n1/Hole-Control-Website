@@ -3,7 +3,7 @@
 Public design preview for a new Hole Control alliance website. This is a
 separate project from the existing alliance website and Home Lab documentation.
 
-Plain HTML and CSS, served by GitHub Pages from `main` at the repository root.
+Plain HTML and CSS with a small optional animation script, served by GitHub Pages from `main` at the repository root.
 No dependencies, backend, database, tracking, or external fonts.
 
 ## Preview locally
@@ -27,6 +27,6 @@ not index this draft; it is not access control.
 
 ## Editing
 
-Edit index.html and styles.css. Use relative asset paths for GitHub project
+Edit index.html, styles.css, and motion.js. Motion respects reduced-motion preferences; content stays visible without JavaScript. Use relative asset paths for GitHub project
 Pages. Keep secrets, private data, infrastructure details, and credentials out
 of this repository. Review the diff before pushing; main publishes the preview.
