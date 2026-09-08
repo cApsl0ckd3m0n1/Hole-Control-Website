@@ -14,7 +14,10 @@ Run `python3 -m http.server 8000` in this folder and open localhost:8000.
 
 The first draft draws on the owner's PvP-first description and the linked
 public alliance charter. It is a design preview, not the final website.
-The official logo, recruitment and diplomatic contact links, and a new domain
+The supplied HC banner is included unchanged at assets/hole-control-banner.png.
+Both uploaded copies were byte-identical; only one is stored. The site uses
+orange and purple accents drawn from the banner and preserves the full artwork
+at all widths. Recruitment and diplomatic contact links and a new domain
 are pending. The existing holecontrol.space domain is not being changed.
 The historical superlative about alliance age awaits a supporting source before
 publication. No operational charter details are duplicated in the site.
