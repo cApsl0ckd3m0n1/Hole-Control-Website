@@ -31,3 +31,41 @@
     running.clear();
   });
 })();
+
+// Navigation remains functional with reduced motion and without animation APIs.
+(() => {
+  const header = document.querySelector('header');
+  const links = [...document.querySelectorAll('nav a[href^="#"]')];
+  const sections = links.map((link) => document.getElementById(link.hash.slice(1)));
+  if (!header || sections.some((section) => !section)) return;
+
+  let scheduled = false;
+  const update = () => {
+    scheduled = false;
+    const sticky = getComputedStyle(header).position === 'sticky';
+    const height = sticky ? header.getBoundingClientRect().height : 0;
+    document.documentElement.style.setProperty('--header-height', `${height}px`);
+    let current = -1;
+    sections.forEach((section, index) => {
+      if (section.getBoundingClientRect().top <= height + 80) current = index;
+    });
+    // The final section may be too short to reach the top of the viewport.
+    if (window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      current = sections.length - 1;
+    }
+    links.forEach((link, index) => {
+      if (index === current) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  };
+  const schedule = () => {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(update);
+  };
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  window.addEventListener('hashchange', schedule);
+  if ('ResizeObserver' in window) new ResizeObserver(schedule).observe(header);
+  update();
+})();

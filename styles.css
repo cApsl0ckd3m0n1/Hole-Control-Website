@@ -134,3 +134,30 @@ nav a:focus-visible::after { transform: scaleX(1); }
   .hero-art { padding: 6px; border-radius: 8px; }
   .life-lead, .columns article { padding: 20px; }
 }
+
+/* A fixed star field sits behind the scrolling page surfaces. */
+:root { --header-height: 110px; }
+html { scroll-padding-top: calc(var(--header-height) + 20px); }
+body { position: relative; isolation: isolate; }
+body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 80% 20%, #864ba72e, transparent 48%), radial-gradient(ellipse at 10% 75%, #49367c33, transparent 50%), radial-gradient(1px 1px at 19px 31px, #eee2ff80 70%, transparent 100%) 0 0 / 137px 173px, radial-gradient(1px 1px at 73px 97px, #f3b47566 70%, transparent 100%) 0 0 / 229px 251px, radial-gradient(1.5px 1.5px at 127px 61px, #d6b5eb66 70%, transparent 100%) 0 0 / 337px 293px; }
+header { position: sticky; top: 0; z-index: 10; background: #17101ff5; border-bottom-color: #b181ca55; box-shadow: 0 12px 32px #05030966; }
+@supports (backdrop-filter: blur(12px)) {
+  header { background: #17101fe8; backdrop-filter: blur(12px); }
+}
+nav a[aria-current="location"] { color: var(--accent); }
+nav a[aria-current="location"]::after { transform: scaleX(1); }
+.skip { position: fixed; z-index: 20; }
+@media (max-width: 40rem) {
+  :root { --header-height: 160px; }
+  header { padding-top: 10px; padding-bottom: 8px; gap: 6px; }
+  nav { gap: 0 12px; }
+  .wordmark span { display: none; }
+}
+/* Keep content accessible when a landscape screen or zoom leaves little room. */
+@media (max-height: 30rem) {
+  header { position: relative; }
+  html { scroll-padding-top: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before { position: absolute; }
+}
