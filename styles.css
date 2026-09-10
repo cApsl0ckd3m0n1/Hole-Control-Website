@@ -161,3 +161,6 @@ nav a[aria-current="location"]::after { transform: scaleX(1); }
 @media (prefers-reduced-motion: reduce) {
   body::before { position: absolute; }
 }
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-actions > .button { min-width: 0; }
