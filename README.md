@@ -24,7 +24,10 @@ The site uses orange and purple accents drawn from the banner and preserves
 its full artwork at all widths. Responsive layouts, layered backgrounds,
 optional entrance transitions, and floating section navigation are included.
 
-Recruitment and diplomatic contact links remain pending. The existing
+The contact section links to the owner-supplied Legio Noctis Discord invite,
+for Hole Control’s executor corporation (Legion of the Night). This is the
+corporation’s public contact Discord. Dedicated
+recruitment and diplomatic contact details remain pending. The existing
 holecontrol.space domain is not being changed. The historical superlative
 about alliance age awaits a supporting source before publication. No
 operational charter details are duplicated in the site.
