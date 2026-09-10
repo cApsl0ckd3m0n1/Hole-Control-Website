@@ -12,8 +12,9 @@ Run `python3 -m http.server 8000` in this folder and open localhost:8000.
 
 ## Content and remaining work
 
-The first draft draws on the owner's PvP-first description and the linked
-public alliance charter. It is a design preview, not the final website.
+The copy draws on the owner's descriptions of HC: old-school gamers,
+wormhole hunting, nullsec targets through connections, small gang and black ops,
+and a level-headed community. The public alliance charter remains linked. It is a design preview, not the final website.
 The supplied HC banner is included unchanged at assets/hole-control-banner.png.
 Both uploaded copies were byte-identical; only one is stored. The site uses
 orange and purple accents drawn from the banner and preserves the full artwork
