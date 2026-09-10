@@ -1,10 +1,14 @@
 # Hole Control website
 
-Public design preview for a new Hole Control alliance website. This is a
-separate project from the existing alliance website and Home Lab documentation.
+Live website: https://holecontrol.duckdns.org/
 
-Plain HTML and CSS with a small optional animation script, served by GitHub Pages from `main` at the repository root.
-No dependencies, backend, database, tracking, or external fonts.
+This repository holds the website source and version history. The site is
+served separately by Caddy; GitHub Pages has been disabled. Pushing to `main`
+updates the source on GitHub but does not automatically deploy the live site.
+This remains a separate project from the existing holecontrol.space website.
+
+Plain HTML and CSS with a small optional animation script. No dependencies,
+backend, database, tracking, or external fonts.
 
 ## Preview locally
 
@@ -14,20 +18,31 @@ Run `python3 -m http.server 8000` in this folder and open localhost:8000.
 
 The copy draws on the owner's descriptions of HC: old-school gamers,
 wormhole hunting, nullsec targets through connections, small gang and black ops,
-and a level-headed community. The public alliance charter remains linked. It is a design preview, not the final website.
+and a level-headed community. The public alliance charter remains linked.
 The supplied HC banner is included unchanged at assets/hole-control-banner.png.
-Both uploaded copies were byte-identical; only one is stored. The site uses
-orange and purple accents drawn from the banner and preserves the full artwork
-at all widths. Recruitment and diplomatic contact links and a new domain
-are pending. The existing holecontrol.space domain is not being changed.
-The historical superlative about alliance age awaits a supporting source before
-publication. No operational charter details are duplicated in the site.
+The site uses orange and purple accents drawn from the banner and preserves
+its full artwork at all widths. Responsive layouts, layered backgrounds,
+optional entrance transitions, and floating section navigation are included.
 
-GitHub Pages is public. The noindex metadata requests that search engines do
-not index this draft; it is not access control.
+Recruitment and diplomatic contact links remain pending. The existing
+holecontrol.space domain is not being changed. The historical superlative
+about alliance age awaits a supporting source before publication. No
+operational charter details are duplicated in the site.
 
-## Editing
+The current page still uses preview wording and noindex metadata while content
+is being refined. The live website is public; noindex is not access control.
 
-Edit index.html, styles.css, and motion.js. Motion respects reduced-motion preferences; content stays visible without JavaScript. Use relative asset paths for GitHub project
-Pages. Keep secrets, private data, infrastructure details, and credentials out
-of this repository. Review the diff before pushing; main publishes the preview.
+## Editing and publishing
+
+Edit index.html, styles.css, and motion.js. Motion respects reduced-motion
+preferences; content stays visible without JavaScript. Keep relative asset
+paths. Review the diff, then commit and push source changes.
+
+Publishing is a separate step: copy only index.html, styles.css, motion.js,
+and assets/ into the configured web root. Do not serve the Git checkout,
+.git directory, credentials, or private operational documentation. Content
+updates do not require a Caddy reload; configuration changes do.
+
+Server-specific deployment and recovery instructions are maintained in the
+private Home-Lab-SEAT repository. Keep secrets, private data, infrastructure
+details, and credentials out of this public repository.
