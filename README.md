@@ -32,8 +32,9 @@ holecontrol.space domain is not being changed. The historical superlative
 about alliance age awaits a supporting source before publication. No
 operational charter details are duplicated in the site.
 
-The current page still uses preview wording and noindex metadata while content
-is being refined. The live website is public; noindex is not access control.
+The page uses live-site wording and a compact expandable menu on mobile.
+Existing noindex metadata remains in place; search-engine indexing is a separate
+setting. The live website is public; noindex is not access control.
 
 ## Editing and publishing
 

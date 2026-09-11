@@ -1,3 +1,51 @@
+// Accessible disclosure menu, independent of the optional entrance animations.
+(() => {
+  const header = document.querySelector('header');
+  const button = document.querySelector('.menu-toggle');
+  const nav = document.getElementById('main-navigation');
+  if (!header || !button || !nav) return;
+  const mobile = window.matchMedia('(max-width: 48rem)');
+  const close = (restoreFocus = false) => {
+    button.setAttribute('aria-expanded', 'false');
+    nav.hidden = mobile.matches;
+    if (restoreFocus) button.focus();
+  };
+  const sync = () => {
+    const focused = document.activeElement;
+    button.hidden = !mobile.matches;
+    close();
+    if (mobile.matches && nav.contains(focused)) button.focus();
+    else if (!mobile.matches && focused === button) nav.querySelector('a').focus();
+  };
+  button.addEventListener('click', () => {
+    const expanded = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(expanded));
+    nav.hidden = !expanded;
+  });
+  nav.addEventListener('click', (event) => {
+    const link = event.target.closest('a');
+    if (!link || !mobile.matches) return;
+    close();
+    const target = document.getElementById(link.hash.slice(1));
+    if (target) {
+      target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    }
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobile.matches && !nav.hidden) close(true);
+  });
+  document.addEventListener('click', (event) => {
+    if (mobile.matches && !header.contains(event.target)) close();
+  });
+  header.addEventListener('focusout', (event) => {
+    if (mobile.matches && event.relatedTarget && !header.contains(event.relatedTarget)) close();
+  });
+  mobile.addEventListener('change', sync);
+  header.classList.add('nav-ready');
+  sync();
+})();
+
 // Content remains visible if scripting or animation support is unavailable.
 (() => {
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
