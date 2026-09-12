@@ -19,7 +19,9 @@ Run `python3 -m http.server 8000` in this folder and open localhost:8000.
 The copy draws on the owner's descriptions of HC: old-school gamers,
 wormhole hunting, nullsec targets through connections, small gang and black ops,
 and a level-headed community. The public alliance charter remains linked.
-The supplied HC banner is included unchanged at assets/hole-control-banner.png.
+The original HC banner is preserved at assets/hole-control-banner.png.
+The page selects 640px, 1280px, or 1920px WebP copies for smaller downloads,
+with the original PNG as a fallback. No artwork is cropped.
 The site uses orange and purple accents drawn from the banner and preserves
 its full artwork at all widths. Responsive layouts, layered backgrounds,
 optional entrance transitions, and floating section navigation are included.
@@ -50,3 +52,26 @@ updates do not require a Caddy reload; configuration changes do.
 Server-specific deployment and recovery instructions are maintained in the
 private Home-Lab-SEAT repository. Keep secrets, private data, infrastructure
 details, and credentials out of this public repository.
+
+## Graphics and optimisation
+
+The banner has a CSS wormhole backdrop and a restrained pointer tilt on desktop.
+Phones and reduced-motion users receive the static version. Tilt updates are
+limited to one animation frame at a time and stop when interaction ends.
+
+WebP copies are approximately 46 KB, 104 KB and 162 KB, compared with the
+2.98 MB original. Regenerate them with `python3 scripts/optimise-banner.py`
+in a temporary Python environment containing Pillow; Pillow is not a site runtime
+dependency. The committed image copies require no build on the web server.
+
+CSS and JavaScript references include content-hash query versions. After editing
+either file, refresh its version in index.html to the first 12 characters of its
+SHA-256 hash so existing browsers request the new version.
+
+For an existing deployment, run `sudo bash scripts/publish.sh /path/to/web-root`
+on the web server. The path is the actual existing serving directory. This
+copies the explicit public-file list, preserves a sibling backup, publishes
+assets before HTML, and compares deployed files with the staged copies.
+It never copies the Git directory or changes Caddy. A failure can leave a partial
+update; restore the saved backup if required. Backups are local and still need
+an independent copy for disaster recovery. Check the live HTTPS page after publishing.

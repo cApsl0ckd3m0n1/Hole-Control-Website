@@ -88,11 +88,16 @@
   if (!header || sections.some((section) => !section)) return;
 
   let scheduled = false;
+  let lastHeight = -1;
+  let lastCurrent = -2;
   const update = () => {
     scheduled = false;
     const sticky = getComputedStyle(header).position === 'sticky';
     const height = sticky ? header.getBoundingClientRect().height : 0;
-    document.documentElement.style.setProperty('--header-height', `${height}px`);
+    if (height !== lastHeight) {
+      document.documentElement.style.setProperty('--header-height', `${height}px`);
+      lastHeight = height;
+    }
     let current = -1;
     sections.forEach((section, index) => {
       if (section.getBoundingClientRect().top <= height + 80) current = index;
@@ -101,6 +106,8 @@
     if (window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
       current = sections.length - 1;
     }
+    if (current === lastCurrent) return;
+    lastCurrent = current;
     links.forEach((link, index) => {
       if (index === current) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
@@ -116,4 +123,44 @@
   window.addEventListener('hashchange', schedule);
   if ('ResizeObserver' in window) new ResizeObserver(schedule).observe(header);
   update();
+})();
+
+// Pointer depth runs only during desktop interaction; no background animation loop.
+(() => {
+  const surface = document.querySelector('.hero-visual');
+  const art = document.querySelector('.hero-art');
+  if (!surface || !art) return;
+  const enabled = window.matchMedia('(min-width: 56.251rem) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+  let frame = null;
+  let bounds = null;
+  let x = 0;
+  let y = 0;
+  const reset = () => {
+    if (bounds === null && frame === null) return;
+    if (frame !== null) cancelAnimationFrame(frame);
+    frame = null;
+    bounds = null;
+    art.classList.remove('is-tilting');
+    art.style.removeProperty('--tilt-x');
+    art.style.removeProperty('--tilt-y');
+  };
+  surface.addEventListener('pointermove', (event) => {
+    if (!enabled.matches || event.pointerType !== 'mouse') return;
+    bounds ??= surface.getBoundingClientRect();
+    x = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / bounds.width * 2 - 1));
+    y = Math.max(-1, Math.min(1, (event.clientY - bounds.top) / bounds.height * 2 - 1));
+    if (frame !== null) return;
+    frame = requestAnimationFrame(() => {
+      frame = null;
+      art.classList.add('is-tilting');
+      art.style.setProperty('--tilt-x', `${(-y * 2).toFixed(2)}deg`);
+      art.style.setProperty('--tilt-y', `${(x * 3).toFixed(2)}deg`);
+    });
+  }, { passive: true });
+  surface.addEventListener('pointerleave', reset);
+  surface.addEventListener('pointercancel', reset);
+  window.addEventListener('scroll', reset, { passive: true });
+  window.addEventListener('resize', reset);
+  window.addEventListener('blur', reset);
+  enabled.addEventListener('change', reset);
 })();
