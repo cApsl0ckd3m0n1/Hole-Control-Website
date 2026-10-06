@@ -58,6 +58,12 @@ details, and credentials out of this public repository.
 The banner has a CSS wormhole backdrop and a restrained pointer tilt on desktop.
 Phones and reduced-motion users receive the static version. Tilt updates are
 limited to one animation frame at a time and stop when interaction ends.
+Pointer measurements and calculations use the latest event once per frame.
+Navigation completes layout reads before applying style changes.
+
+Run the focused navigation and pointer scheduling tests with
+`node --test tests/motion.test.cjs` (Node.js 18 or newer). Node.js is only needed
+for these development checks, not to serve the site.
 
 WebP copies are approximately 46 KB, 104 KB and 162 KB, compared with the
 2.98 MB original. Regenerate them with `python3 scripts/optimise-banner.py`

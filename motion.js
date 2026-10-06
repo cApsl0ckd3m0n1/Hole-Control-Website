@@ -94,10 +94,6 @@
     scheduled = false;
     const sticky = getComputedStyle(header).position === 'sticky';
     const height = sticky ? header.getBoundingClientRect().height : 0;
-    if (height !== lastHeight) {
-      document.documentElement.style.setProperty('--header-height', `${height}px`);
-      lastHeight = height;
-    }
     let current = -1;
     sections.forEach((section, index) => {
       if (section.getBoundingClientRect().top <= height + 80) current = index;
@@ -105,6 +101,11 @@
     // The final section may be too short to reach the top of the viewport.
     if (window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
       current = sections.length - 1;
+    }
+    // Finish layout reads before changing styles or navigation attributes.
+    if (height !== lastHeight) {
+      document.documentElement.style.setProperty('--header-height', `${height}px`);
+      lastHeight = height;
     }
     if (current === lastCurrent) return;
     lastCurrent = current;
@@ -133,8 +134,8 @@
   const enabled = window.matchMedia('(min-width: 56.251rem) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
   let frame = null;
   let bounds = null;
-  let x = 0;
-  let y = 0;
+  let clientX = 0;
+  let clientY = 0;
   const reset = () => {
     if (bounds === null && frame === null) return;
     if (frame !== null) cancelAnimationFrame(frame);
@@ -146,12 +147,15 @@
   };
   surface.addEventListener('pointermove', (event) => {
     if (!enabled.matches || event.pointerType !== 'mouse') return;
-    bounds ??= surface.getBoundingClientRect();
-    x = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / bounds.width * 2 - 1));
-    y = Math.max(-1, Math.min(1, (event.clientY - bounds.top) / bounds.height * 2 - 1));
+    clientX = event.clientX;
+    clientY = event.clientY;
     if (frame !== null) return;
     frame = requestAnimationFrame(() => {
       frame = null;
+      // Use the latest pointer position and measure only when a frame renders.
+      bounds ??= surface.getBoundingClientRect();
+      const x = Math.max(-1, Math.min(1, (clientX - bounds.left) / bounds.width * 2 - 1));
+      const y = Math.max(-1, Math.min(1, (clientY - bounds.top) / bounds.height * 2 - 1));
       art.classList.add('is-tilting');
       art.style.setProperty('--tilt-x', `${(-y * 2).toFixed(2)}deg`);
       art.style.setProperty('--tilt-y', `${(x * 3).toFixed(2)}deg`);
