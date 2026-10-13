@@ -18,7 +18,7 @@ Run `python3 -m http.server 8000` in this folder and open localhost:8000.
 
 The copy draws on the owner's descriptions of HC: old-school gamers,
 wormhole hunting, nullsec targets through connections, small gang and black ops,
-and a level-headed community. The public alliance charter remains linked.
+and a level-headed community.
 The original HC banner is preserved at assets/hole-control-banner.png.
 The page selects 640px, 1280px, or 1920px WebP copies for smaller downloads,
 with the original PNG as a fallback. No artwork is cropped.
